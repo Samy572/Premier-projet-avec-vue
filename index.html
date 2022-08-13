@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+        <title>Self Service Order</title>
+    </head>
+
+    <body>
+        
+        <main id="app">
+            
+            <section class="items">
+                <h4>Pick your items</h4>
+                <!-- v-for permet de créer des boucles -->
+                <!--@click pour la gestion des evenements -->
+                 <!-- ajout de la classe selected si product.active est true -->
+                <div 
+                v-for ="product of products" 
+                class="product "
+                @click="product.active = !product.active"
+                v-bind:class= "{selected: product.active}">
+
+                    <div class="photo">
+                        <!-- Pour les attributs src la syntaxe est la suivante -->
+                        <img :src="product.photo">
+                    </div>
+                    <div class="description">
+                        <span class="name">{{product.name}}</span>
+                        <span class="price">{{product.price}}</span>
+                        <div class="quantity-area" v-if ="product.active">
+                            <!-- Pour ajouter une decrementation on utilise .stop pour éviter la propagation des events click -->
+                            <!-- On désactive la décrementation si le produit est inférieur ou égale à 0 -->
+                            <button @click.stop ="product.quantity--" :disabled="product.quantity <=0">-</button>
+                            <span class="quantity">{{product.quantity}}</span>
+                            <button @click.stop ="product.quantity++">+</button>
+                        </div>
+                    </div>
+                </div>
+               
+                
+            </section>
+
+            <section class="summary">
+                <strong>Order Details</strong>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1x Big Mac</td>
+                            <td>5.99</td>
+                        </tr>
+                        
+                        <tr>
+                            <th>Total</th>
+                            <th>5.99</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+        <script src="https://unpkg.com/vue@next"></script>
+        <script src="scripts.js"></script>
+    </body>
+
+</html>
